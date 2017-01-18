@@ -3,9 +3,6 @@ package model.board;
 import java.util.List;
 import model.move.Position;
 
-/**
- * Created by AlexLin on 1/17/17.
- */
 public class GameBoard {
     private final int boardSizeRow;
     private final int boardSizeCol;
@@ -29,7 +26,6 @@ public class GameBoard {
 
     private int[][] findPath(int[][] currentBoard, Position currentPosition, int depth) {
         currentBoard[currentPosition.row][currentPosition.col] = depth;
-
         if (isBoardFilled(currentBoard)) {
             // Base case: board is filled, we found a path
             return currentBoard;
@@ -49,7 +45,6 @@ public class GameBoard {
             currentBoard[currentPosition.row][currentPosition.col] = 0;
             return null;
         }
-
     }
 
     /**
@@ -74,13 +69,8 @@ public class GameBoard {
             return;
         }
         for (int i = 0; i < boardSizeRow; ++i){
-            String line = "";
             for (int j = 0; j < boardSizeCol; ++j) {
                 System.out.printf("%1$3s",board[i][j]);
-            }
-            System.out.println();
-            for (int k = 0; k < line.length(); ++k) {
-                System.out.print('-');
             }
             System.out.println();
         }

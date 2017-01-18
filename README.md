@@ -15,7 +15,9 @@ example solution for a 5x5 board:
  25 10 15  6 23
 
  Todo:
- Change the terminatation case base on the chess piece that is passed to the board. For example:
+ Change the terminatation case base on the chess piece that is passed to the board. 
+ For example:
 
  Knight -> knight's tour
+
  queen -> 8 queen problem
