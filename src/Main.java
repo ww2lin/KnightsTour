@@ -1,17 +1,18 @@
 import model.board.GameBoard;
 import model.board.Knight;
-import model.move.Position;
+import model.board.Queen;
 
 public class Main {
 
     public static void main(String args[]){
-        int row = 5;
-        int col = 5;
+        int row = 4;
+        int col = 4;
 
         Knight knight = new Knight(row, col);
-        GameBoard gameBoard = new GameBoard(knight);
+        Queen queen = new Queen(row, col, 4);
+        GameBoard gameBoard = new GameBoard(queen);
 
-        gameBoard.printBoard(gameBoard.findPathStartingAt(new Position(0,0)));
+        gameBoard.printBoard(gameBoard.findAllPaths());
 
     }
 }

@@ -13,9 +13,9 @@ public abstract class ChessPiece {
     private final Position[] movePool;
 
     public ChessPiece(int row, int col) {
-        movePool = getMovePool();
         maxRow = row;
         maxCol = col;
+        movePool = getMovePool();
     }
 
     /**
@@ -23,6 +23,9 @@ public abstract class ChessPiece {
      * This board will return all the position (can be invalid) the piece can make.
      */
     protected abstract Position[] getMovePool();
+
+
+    public abstract State getState(int[][] board);
 
     /**
      * Get a list of available move set based on the current move

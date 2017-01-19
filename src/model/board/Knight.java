@@ -28,4 +28,26 @@ public class Knight extends ChessPiece {
         };
         return movePool;
     }
+
+    /**
+     * board is filled when every element in the index [row, col] > 0
+     * @param board
+     * @return true if all the number in the matrix is greater than 0
+     */
+    public boolean terminated(int[][] board) {
+        for (int i = 0; i < maxRow; ++i){
+            for (int j = 0; j < maxCol; ++j){
+                if (board[i][j] <= 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public State getState(int[][] board) {
+        return terminated(board) ? State.DONE : State.RECURSE;
+    }
+
 }

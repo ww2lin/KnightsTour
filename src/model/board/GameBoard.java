@@ -1,5 +1,6 @@
 package model.board;
 
+import java.util.LinkedList;
 import java.util.List;
 import model.move.Position;
 
@@ -15,9 +16,30 @@ public class GameBoard {
     }
 
     public int[][] findPath(){
-        int[][] gameboard = new int[boardSizeRow][boardSizeCol];
-        return findPath(gameboard, new Position(0,0), 1);
+        for (int i = 0; i < chessPiece.maxRow; ++i) {
+            for (int j = 0; j < chessPiece.maxCol; ++j) {
+                int[][] ans = findPath(new int[boardSizeRow][boardSizeCol], new Position(i,j), 1);
+                if (ans != null) {
+                    return ans;
+                }
+            }
+        }
+        return null;
     }
+
+    public List<int[][]> findAllPaths(){
+        List<int[][]> paths = new LinkedList<>();
+        for (int i = 0; i < chessPiece.maxRow; ++i) {
+            for (int j = 0; j < chessPiece.maxCol; ++j) {
+                int[][] ans = findPath(new int[boardSizeRow][boardSizeCol], new Position(i,j), 1);
+                if (ans != null) {
+                    paths.add(ans);
+                }
+            }
+        }
+        return paths;
+    }
+
 
     public int[][] findPathStartingAt(Position position){
         int[][] gameboard = new int[boardSizeRow][boardSizeCol];
@@ -26,10 +48,11 @@ public class GameBoard {
 
     private int[][] findPath(int[][] currentBoard, Position currentPosition, int depth) {
         currentBoard[currentPosition.row][currentPosition.col] = depth;
-        if (isBoardFilled(currentBoard)) {
+        State state = chessPiece.getState(currentBoard);
+        if (state == State.DONE) {
             // Base case: board is filled, we found a path
             return currentBoard;
-        } else {
+        } else if (state == State.RECURSE){
             // recursive case: Try DFS search on the board
             List<Position> nextMoves = chessPiece.getNextAvailableMoves(currentPosition);
             for (Position position : nextMoves) {
@@ -41,31 +64,15 @@ public class GameBoard {
                     }
                 }
             }
-            // remove the placed piece, if we reached a dead end.
-            currentBoard[currentPosition.row][currentPosition.col] = 0;
-            return null;
         }
-    }
-
-    /**
-     * board is filled when every element in the index [row, col] > 0
-     * @param board
-     * @return true if all the number in the matrix is greater than 0
-     */
-    private boolean isBoardFilled(int[][] board){
-        for (int i = 0; i < boardSizeRow; ++i){
-            for (int j = 0; j < boardSizeCol; ++j){
-                if (board[i][j] <= 0) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        // remove the placed piece, if we reached a dead end.
+        currentBoard[currentPosition.row][currentPosition.col] = 0;
+        return null;
     }
 
     public void printBoard(int[][] board){
         if (board == null) {
-            System.out.println("null board given");
+            System.out.println("N/A no solution found.");
             return;
         }
         for (int i = 0; i < boardSizeRow; ++i){
@@ -75,4 +82,12 @@ public class GameBoard {
             System.out.println();
         }
     }
+
+    public void printBoard(List<int[][]> boards){
+        for (int[][] board : boards){
+            printBoard(board);
+            System.out.println();
+        }
+    }
+
 }
